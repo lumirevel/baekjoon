@@ -1,7 +1,7 @@
 from sys import stdin
 N, M = map(int, stdin.readline().split(" "))
-m = [0]+list(map(int, stdin.readline().split(" ")))
-c = [0]+list(map(int, stdin.readline().split(" ")))
+m = [None] + list(map(int, stdin.readline().split(" ")))
+c = [None] + list(map(int, stdin.readline().split(" ")))
 
 """
 그냥 배낭 문제와는 다르다
@@ -19,28 +19,30 @@ c = [0]+list(map(int, stdin.readline().split(" ")))
 이것도 1차원 배열일 것 같다
 근데 sorting이 필요할지도? ordered가 잘 되어 있어야 할 것 같은데? (well-ordered set?)
 그 배낭문제를 뒤집으면 됨 - 메모리가 터짐
-go and back 전략을 쓴다면???
-go and back을 사용. 1차원 배열로 축소.
+go and back 전략을 쓴다면?
+지나간 곳을 참조하지 않기 때문에 1차원 배열로 축소 성공.
+DP는 말 그대로 저장만 잘하면 되는 거였음.
+꼭 점화식의 끝자락이 결과값일 필요가 없음.
+N*m 대신 N*c 하니까 되었음
 """
 
-DP = [None for _ in range(M+1)]
+DP = [[None for _ in range(100*N+1)] for _ in range(N+1)]
 for n in range(1, N+1):
     if n == 1:
-        DP[0] = 0
-        for i in range(1, m[n]+1):
-            DP[i] = c[n]
-    else:
-        for i in range(M, 0-1, -1):
-            if i-m[n] >= 0:
-                if DP[i-m[n]] != None:
-                    if DP[i] == None:
-                        DP[i] = DP[i-m[n]] + c[n]
-                    else:
-                        DP[i] = min(DP[i], DP[i-m[n]] + c[n])
+        for cstep in range(100*N+1):
+            if cstep < c[n]:
+                DP[n][cstep] = 0
             else:
-                if DP[i] == None:
-                    DP[i] = c[n]
-                else:
-                    DP[i] = min(DP[i], c[n])
+                DP[n][cstep] = m[n]
+    else:
+        for cstep in range(100*N+1):
+            if cstep < c[n]:
+                DP[n][cstep] = DP[n-1][cstep]
+            else:
+                DP[n][cstep] = max(DP[n-1][cstep], DP[n-1][cstep-c[n]]+m[n])
 
-print(DP[M])
+cstep = 0
+while DP[N][cstep] < M:
+    cstep += 1
+
+print(cstep)
