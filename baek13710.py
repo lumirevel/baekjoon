@@ -173,19 +173,60 @@
 #
 # print(sum) # 아이디어
 
-from sys import stdin
+# from sys import stdin
+#
+# N = int(stdin.readline())
+# whens = [[] for _ in range(30)]
+# raws = list(map(int, stdin.readline().split(" ")))
+#
+# for i in range(N):
+#     cache = raws[i]
+#     bit = 0
+#     while cache:
+#         if cache % 2:
+#             whens[bit].append(i)
+#         cache //= 2
+#         bit += 1
+#
+# print(whens) # 아이디어
 
+from sys import stdin
 N = int(stdin.readline())
-whens = [[] for _ in range(30)]
 raws = list(map(int, stdin.readline().split(" ")))
 
+bytes = [[] for _ in range(N)]
 for i in range(N):
     cache = raws[i]
-    bit = 0
     while cache:
-        if cache % 2:
-            whens[bit].append(i)
+        bytes[i].append(cache % 2)
         cache //= 2
-        bit += 1
 
-print(whens)
+process = [[[0,0] for _ in range(30)] for _ in range(N)]# [[[홀, 짝] * 30] * N(단계수)]
+sumBit = [0 for _ in range(30)]
+for n, byte in enumerate(bytes):
+    for i in range(30):
+        if i < len(byte):
+            bit = byte[i]
+        else:
+            bit = 0
+
+        if n == 0:
+            if bit:
+                process[n][i][0] += 1
+            else:
+                process[n][i][1] += 1
+            sumBit[i] += process[n][i][0]
+        else:
+            if bit:
+                process[n][i][0], process[n][i][1] = process[n-1][i][1] + 1, process[n-1][i][0]
+            else:
+                process[n][i][0], process[n][i][1] = process[n-1][i][0], process[n-1][i][1] + 1
+            sumBit[i] += process[n][i][0]
+
+an = 1
+result = 0
+for bit in sumBit:
+    result += bit * an
+    an *= 2
+
+print(result)
