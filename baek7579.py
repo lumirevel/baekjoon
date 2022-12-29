@@ -3,9 +3,6 @@ N, M = map(int, stdin.readline().split(" "))
 m = [0]+list(map(int, stdin.readline().split(" ")))
 c = [0]+list(map(int, stdin.readline().split(" ")))
 
-mSum = sum(m)
-cSum = sum(c)
-
 """
 그냥 배낭 문제와는 다르다
 배낭 문제는 채울 수 있는 채우는 것이므로 꼭 꽉 채울 필요가 없다
@@ -21,22 +18,28 @@ cSum = sum(c)
 아 회의실은 2차원 배열이 아닌 1차원 배열이었다
 이것도 1차원 배열일 것 같다
 근데 sorting이 필요할지도? ordered가 잘 되어 있어야 할 것 같은데? (well-ordered set?)
-그 배낭문제를 뒤집으면 됨
+그 배낭문제를 뒤집으면 됨 - 메모리가 터짐
+go and back 전략을 쓴다면???
 """
 
-DP = [[None for _ in range(mSum+1)] for _ in range(N+1)]
+DP = [[None for _ in range(M+1)] for _ in range(N+1)]
 for n in range(1, N+1):
     if n == 1:
-        for mTemp in range(mSum, M-1, -1):
-            if mTemp > mSum-m[n]:
-                DP[n][mTemp] = cSum
-            else:
-                DP[n][mTemp] = cSum-c[n]
+        DP[n][0] = 0
+        for i in range(1, m[n]+1):
+            DP[n][i] = c[n]
     else:
-        for mTemp in range(mSum, M-1, -1):
-            if mTemp > mSum-m[n]:
-                DP[n][mTemp] = DP[n-1][mTemp]
+        for i in range(M, 0-1, -1):
+            if i-m[n] >= 0:
+                if DP[n-1][i-m[n]] != None:
+                    if DP[n-1][i] == None:
+                        DP[n][i] = DP[n-1][i-m[n]] + c[n]
+                    else:
+                        DP[n][i] = min(DP[n-1][i], DP[n-1][i-m[n]] + c[n])
             else:
-                DP[n][mTemp] = min(DP[n-1][mTemp], DP[n-1][mTemp+m[n]] - c[n])
+                if DP[n-1][i] == None:
+                    DP[n][i] = c[n]
+                else:
+                    DP[n][i] = min(DP[n-1][i], c[n])
 
 print(DP[N][M])
