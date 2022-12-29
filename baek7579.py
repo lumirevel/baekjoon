@@ -20,26 +20,27 @@ c = [0]+list(map(int, stdin.readline().split(" ")))
 근데 sorting이 필요할지도? ordered가 잘 되어 있어야 할 것 같은데? (well-ordered set?)
 그 배낭문제를 뒤집으면 됨 - 메모리가 터짐
 go and back 전략을 쓴다면???
+go and back을 사용. 1차원 배열로 축소.
 """
 
-DP = [[None for _ in range(M+1)] for _ in range(N+1)]
+DP = [None for _ in range(M+1)]
 for n in range(1, N+1):
     if n == 1:
-        DP[n][0] = 0
+        DP[0] = 0
         for i in range(1, m[n]+1):
-            DP[n][i] = c[n]
+            DP[i] = c[n]
     else:
         for i in range(M, 0-1, -1):
             if i-m[n] >= 0:
-                if DP[n-1][i-m[n]] != None:
-                    if DP[n-1][i] == None:
-                        DP[n][i] = DP[n-1][i-m[n]] + c[n]
+                if DP[i-m[n]] != None:
+                    if DP[i] == None:
+                        DP[i] = DP[i-m[n]] + c[n]
                     else:
-                        DP[n][i] = min(DP[n-1][i], DP[n-1][i-m[n]] + c[n])
+                        DP[i] = min(DP[i], DP[i-m[n]] + c[n])
             else:
-                if DP[n-1][i] == None:
-                    DP[n][i] = c[n]
+                if DP[i] == None:
+                    DP[i] = c[n]
                 else:
-                    DP[n][i] = min(DP[n-1][i], c[n])
+                    DP[i] = min(DP[i], c[n])
 
-print(DP[N][M])
+print(DP[M])
