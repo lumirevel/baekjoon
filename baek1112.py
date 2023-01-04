@@ -8,10 +8,7 @@ if b > 0:
     else:
         q = -x
     while q:
-        if x >= 0:
-           nary.append(q % b)
-        else:
-            nary.append(-(q % b))
+        nary.append(q % b)
         q //= 2
 elif b < 0:
     if x == 0:
@@ -106,6 +103,10 @@ elif b < 0:
                     dec -= an
             an /= b
             countdown -= 1
+
+if b > 0 and x < 0:
+    print("-", end="")
+
 
 while nary:
     print(nary.pop(), end="")
