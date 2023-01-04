@@ -37,7 +37,7 @@ elif b < 0:
             nary.append(abs(b)-1)
         nary.append(1)
 
-        dec = 0
+        dec = -1
         an = 1
         for v in nary:
             dec += v*an
