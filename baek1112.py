@@ -3,13 +3,13 @@ x, b = list(map(int, stdin.readline().split(" ")))
 nary = []
 
 if b > 0:
-    if x >= 0:
-        q = x
+    if x == 0:
+        nary.append(0)
     else:
-        q = -x
-    while q:
-        nary.append(q % b)
-        q //= 2
+        q = abs(x)
+        while q:
+            nary.append(q % b)
+            q //= b
 elif b < 0:
     if x == 0:
         nary.append(0)
