@@ -21,18 +21,6 @@ def sum_all_digit(L:int, U:int) -> int:
             digits.append(Q % 10)
             Q //= 10
         return digits
-    def digit_2_int(digits: list[int]) -> int:
-        """
-        십진 체계에 따라 list로 만들어진 digits list를 다시 int로 바꿔줌
-        :param digits: 정수를 자릿수마다 자른 list
-        :return: digits에 해당하는 정수
-        """
-        Q = 0
-        digit_count = 1
-        for v in digits:
-            Q += v * digit_count
-            digit_count *= 10
-        return Q
     def cumul_sum(s, e):
         return (e*(e+1)-s*(s-1))//2
     def sum_all_digit_unit(S:list[int], E:list[int]) -> tuple[int, int]:
@@ -44,9 +32,9 @@ def sum_all_digit(L:int, U:int) -> int:
         """
         S, E = copy(S), copy(E)
         digits_sum, count = 0, 0
-        if len(S) == len(E):
-            overlab_sum = 0
-            while len(S) and S[-1] == E[-1]:
+        if len(S) == len(E): # 길이가 같을 때
+            overlab_sum = 0 # 중복들의 합
+            while len(S) and S[-1] == E[-1]: # 길이가 0이 아니고
                 overlab_sum += (S.pop() + E.pop()) // 2
             if overlab_sum:
                 child = sum_all_digit_unit(S, E)
@@ -84,8 +72,8 @@ def sum_all_digit(L:int, U:int) -> int:
             value_end = sum_all_digit_unit([1 if i == len(E) - 1 else 0 for i in range(len(E))], E)
             digits_sum += value_front[1] + value_end[1]
             count += value_front[0] + value_end[0]
-        return (count, digits_sum)
-    return sum_all_digit_unit(digitize_10(L), digitize_10(U))[1]
+        return count, digits_sum
+    return int(sum_all_digit_unit(digitize_10(L), digitize_10(U))[1])
 
 
 print(sum_all_digit(L, U))
