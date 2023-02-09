@@ -19,13 +19,15 @@ for person in people:
                 position[1] = len(teams) - 1
         else:
             teams[position[length]].append(person)
+
+            if position[length + 1] is None:
+                position[length + 1] = position[length]
+
             if position[length] == len(teams) - 1:
                 position[length] = None
             elif len(teams[position[length] + 1]) != length:
                 position[length] = None
             else:
-                if position[length + 1] is None:
-                    position[length + 1] = position[length]
                 position[length] += 1
     else:
         teams.append([person])
