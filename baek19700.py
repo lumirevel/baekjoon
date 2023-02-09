@@ -11,8 +11,17 @@ position = [None for _ in range(max_N)]
 for person in people:
     if teams:
         length = min(person[1] - 1, len(teams[0]))
-        while length and position[length] is None:
-            length -= 1
+        if length and position[length] is None:
+            low, high = 0, len(teams)
+            while low < high:
+                mid = (low + high) // 2
+                if len(teams[mid]) >= length:
+                    low = mid + 1
+                else:
+                    high = mid
+            length = len(teams[low]) if high < len(teams) else 0
+
+
         if length == 0:
             teams.append([person])
             if position[1] is None:
