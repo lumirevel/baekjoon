@@ -21,29 +21,35 @@ class Heap:
 
     def pop(self):#is not implemented completely
         if self.__N:
-            m = self.tree[1]
             i = 1
-            while 2*i < self.__N:
-                if self.tree[2*i] < self.tree[2*i+1]:
-                    self.tree[i], self.tree[2*i] = self.tree[2*i], self.tree[i]
-                    i = 2*i
-                else:
-                    self.tree[i], self.tree[2 * i + 1] = self.tree[2 * i + 1], self.tree[i]
-                    i = 2*i+1
+            m = self.tree[i]
 
-            if self.__N <= 2 * i:
-                self.tree[i], self.tree[2 * i] = self.tree[2 * i], self.tree[i]
-            elif self.__N <= 2*i+1:
-                if self.tree[2 * i] < self.tree[2 * i + 1]:
-                    self.tree[i], self.tree[2 * i] = self.tree[2 * i], self.tree[i]
-                    self.tree[2*i], self.tree[2*i+1] = self.tree[2*i+1], self.tree[2*i]
-                else:
-                    self.tree[i], self.tree[2 * i + 1] = self.tree[2 * i + 1], self.tree[i]
-            self.tree.pop()
+            self.tree[self.__N], self.tree[1] = self.tree[1], self.tree[self.__N]
             self.__N -= 1
+            self.tree.pop()
+
+            self.__bubble(1)
+
             return m
         else:
             return 0
+
+    def __bubble(self, focus):
+        l, r = 2*focus, 2*focus+1
+        if r <= self.__N:
+            if self.tree[l] < self.tree[focus]:
+                if self.tree[l] < self.tree[r]:
+                    self.tree[l], self.tree[focus] = self.tree[focus], self.tree[l]
+                    self.__bubble(l)
+                else:
+                    self.tree[r], self.tree[focus] = self.tree[focus], self.tree[r]
+                    self.__bubble(r)
+            elif self.tree[r] < self.tree[focus]:
+                self.tree[r], self.tree[focus] = self.tree[focus], self.tree[r]
+                self.__bubble(r)
+        elif l <= self.__N:
+            if self.tree[l] < self.tree[focus]:
+                self.tree[l], self.tree[focus] = self.tree[focus], self.tree[l]
 
     def __len__(self):
         return self.__N
@@ -56,5 +62,3 @@ for _ in range(N):
         heap.append(x)
     else:
         print(heap.pop())
-
-print(heap.tree[1])
