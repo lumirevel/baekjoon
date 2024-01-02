@@ -10,7 +10,7 @@ lectures.sort(key = lambda x:x[1])
 requirement = 0
 remnant = PriorityQueue()
 for lecture in lectures:
-    while (not remnant.empty() and remnant.queue[0] < lecture[1]):
+    while (not remnant.empty() and remnant.queue[0] <= lecture[1]):
         remnant.get()
     remnant.put(lecture[2])
 
