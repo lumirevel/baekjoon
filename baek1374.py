@@ -1,18 +1,20 @@
-from queue import PriorityQueue
-
 N = int(input())
 
 lectures = []
 for _ in range(N):
     lectures.append(tuple(map(int, input().split(" "))))
-lectures.sort(key = lambda x:x[2])
+lectures.sort(key = lambda x:x[2], reverse = True)
+lectures.sort(key = lambda x:x[1])
 
-classes = PriorityQueue()
+endPoint = -1
+duple = []
 for lecture in lectures:
-    if not classes.empty():
-        minValue = classes.get() # 들어갈 수 있는지 여부 확인(fnsh<=strt)
-        if lecture[1] < minValue:
-            classes.put(minValue)
-    classes.put(lecture[2]) # 들어 갈 수 없으면 새로운 값 입력 # 들어 갈 수 있으면 해당 값 업데이트(삭제 후 삽입)
+    if endPoint < lecture[1]:
+        endPoint = lecture[2]
+        duple.append(0)
+    elif lecture[2] < endPoint:
+        endPoint = lecture[2]
+    duple[-1]+=1
 
-print(classes.qsize())
+duple.sort()
+print(duple[-1])
