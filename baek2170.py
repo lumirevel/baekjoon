@@ -1,8 +1,10 @@
+from sys import stdin
+
 N = int(input())
 
 lines = []
 for _ in range(N):
-    lines.append(tuple(map(int, input().split(" "))))
+    lines.append(tuple(map(int, stdin.readline().split(" "))))
 lines.sort(key = lambda x:x[0])
 
 totalLength = 0
