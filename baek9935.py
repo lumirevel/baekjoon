@@ -476,6 +476,33 @@
 #
 # #성범이에게 역행 비교를 들은 후 짜봄
 
+# from sys import stdin
+# T = list(stdin.readline().rstrip())
+# P = stdin.readline().rstrip()
+#
+# stack = []
+# if len(T)>=len(P):
+#     for i in range(len(P)-1):
+#         stack.append(T[i])
+#     for i in range(len(P)-1,len(T)):
+#         stack.append(T[i])
+#         for j in range(1, len(P)+1):
+#             if stack[-j] != P[-j]:
+#                 break
+#         else:
+#             for _ in range(len(P)):
+#                 stack.pop()
+# else:
+#     stack = T
+#
+# if stack:
+#     for txt in stack:
+#         print(txt, end="")
+# else:
+#     print("FRULA")
+#
+# #성범이 찾은 코너 케이스까지 반영
+
 from sys import stdin
 T = list(stdin.readline().rstrip())
 P = stdin.readline().rstrip()
@@ -484,14 +511,16 @@ stack = []
 if len(T)>=len(P):
     for i in range(len(P)-1):
         stack.append(T[i])
-    for i in range(len(P)-1,len(T)):
+    for i in range(len(P) - 1, len(T)):
         stack.append(T[i])
-        for j in range(1, len(P)+1):
-            if stack[-j] != P[-j]:
-                break
-        else:
-            for _ in range(len(P)):
-                stack.pop()
+        if len(stack) >= len(P):  # stack의 길이가 P의 길이보다 크거나 같은지 확인
+            for j in range(1, len(P) + 1):
+                if stack[-j] != P[-j]:
+                    break
+            else:
+                for _ in range(len(P)):
+                    stack.pop()
+
 else:
     stack = T
 
@@ -501,4 +530,4 @@ if stack:
 else:
     print("FRULA")
 
-#성범이 찾은 코너 케이스까지 반영
+# GPT는 신이다
