@@ -19,6 +19,7 @@ for change in changes:
             if y != 0 and (not stack or stack[-1] != y):
                 stack.append(y)
     else:
-        stack.append(y)
+        if y != 0:
+            stack.append(y)
 count += len(stack)
 print(count)
