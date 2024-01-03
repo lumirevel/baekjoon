@@ -3,15 +3,49 @@ from queue import PriorityQueue
 
 N = int(stdin.readline())
 
-buildings = [(1000000001, 0, 1000000001)] # 전부 빼기 위함
+buildings = []
 for _ in range(N):
     buildings.append(tuple(map(int, stdin.readline().split(" "))))
-buildings.sort(key = lambda x:x[0])
+buildings.sort(key = lambda x:x[1])
+
+currentHeight = None
+layers = []
+for building in buildings:
+    if currentHeight != building[1]:
+        currentHeight = building[1]
+        layers.append([])
+    layers[-1].append(building)
+
+buildingLines = []
+for layer in layers:
+    layer.sort(key=lambda x: x[0])
+
+    startPoint = None
+    endPoint = None
+    height = None
+    for building in layer:
+        if startPoint is None:
+            startPoint = building[0]
+        if height is None:
+            height = building[1]
+        if endPoint is None:
+            endPoint = building[2]
+
+        if endPoint < building[0]:
+            buildingLines.append((startPoint, height, endPoint))
+            startPoint = building[0]
+            endPoint = building[2]
+        elif endPoint < building[2]:
+            endPoint = building[2]
+    buildingLines.append((startPoint, height, endPoint))
+buildingLines.append((1000000001, 0, 1000000001)) # 전부 빼기 위함
+buildingLines.sort(key = lambda x:x[0])
 
 tray = PriorityQueue() # max heap으로 하기 위해 음수로 저장할 것
 changes = []
-for building in buildings:
-    L, H, R = building
+for buildingLine in buildingLines:
+    L, H, R = buildingLine
+    prvH = 0
     if not tray.empty():
         maxR = tray.queue[0][1]
         while not tray.empty() and tray.queue[0][1] < L:
