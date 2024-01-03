@@ -61,6 +61,8 @@ for buildingLine in buildingLines:
 
     tray.put((-H,R))
     if tray.queue[0][0] != 0 and -tray.queue[0][0] == H:
+        if changes and changes[-1][1] == L and changes[-1][1] < H:
+            changes.pop()
         changes.append((L, H))
 
 result = ""
