@@ -10,13 +10,19 @@ maxArray = 0
 stack = []
 for e, h in enumerate(histogram):
     if stack:
-        while stack and stack[-1][1] > h:
-            s, nowH = stack.pop()
-            w = e - s
-            if maxArray < w*nowH:
-                maxArray = w*nowH
-        if stack and stack[-1][1] < h:
-            stack.append((stack[-1][0]+1,h))
+        if stack[-1][1] > h:
+            minS = N
+            while stack and stack[-1][1] > h:
+                s, nowH = stack.pop()
+                if s < minS:
+                    minS = s
+                w = e - s
+                if maxArray < w*nowH:
+                    maxArray = w*nowH
+            if not stack or stack[-1][1] < h:
+                stack.append((minS,h))
+        elif stack[-1][1] < h:
+            stack.append((e, h))
     else:
         stack.append((e,h))
 
