@@ -12,8 +12,8 @@ count = []
 for _ in range(N):
     count.append(0)
 def countDFS(inferiors, node=0):
+    count[node] += len(inferiors[node])
     for inferior in inferiors[node]:
-        count[node] += len(inferiors[node])
         count[node] += countDFS(inferiors, inferior)
     return count[node]
 
