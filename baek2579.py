@@ -4,10 +4,13 @@ stairScores = []
 for _ in range(N):
     stairScores.append(int(input()))
 if N > 1:
-    DP = [(stairScores[0],stairScores[0]),(stairScores[1],stairScores[0]+stairScores[1])] # 1,2개
+    A = (stairScores[0],stairScores[0])
+    B = (stairScores[1],stairScores[0]+stairScores[1])
     for i in range(2,N):
-        DP.append((max(DP[i-2])+stairScores[i],DP[i-1][0]+stairScores[i]))
+        result = (max(A)+stairScores[i],B[0]+stairScores[i])
+        A = B
+        B = result
 
-    print(max(DP[-1]))
+    print(max(B))
 else:
     print(stairScores[0])
