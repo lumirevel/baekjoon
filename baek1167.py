@@ -33,11 +33,11 @@ def subTreeLengths(adj, node=0):
                 toSecondMaximum = toMaximum
                 toMaximum = toMax + w
     if toMaximum is None:
-        return (toMaximum, subMaximum)
+        return (toMaximum, max(toMaximum, subMaximum))
     elif toSecondMaximum is None:
-        return (toMaximum, max(subMaximum, toMaximum))
+        return (toMaximum, max(toMaximum, subMaximum, toMaximum))
     else:
-        return (toMaximum, max(subMaximum, toMaximum + toSecondMaximum))
+        return (toMaximum, max(toMaximum, subMaximum, toMaximum + toSecondMaximum))
 
 trash, result = subTreeLengths(adj)
 print(max(trash, result))
