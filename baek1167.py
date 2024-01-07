@@ -27,17 +27,15 @@ def subTreeLengths(adj, node=0):
     for toNode, w in adj[node]:
         if not visited[toNode]:
             toMax, subMax = subTreeLengths(adj, toNode)
-            if subMaximum is None or subMaximum < subMax:
+            if subMaximum < subMax:
                 subMaximum = subMax
-            if toMaximum is None or toMaximum < toMax + w:
+            if toMaximum <= toMax + w:
                 toSecondMaximum = toMaximum
                 toMaximum = toMax + w
-    if toMaximum is None:
-        return (toMaximum, max(toMaximum, subMaximum))
-    elif toSecondMaximum is None:
-        return (toMaximum, max(toMaximum, subMaximum, toMaximum))
+    if toSecondMaximum is None:
+        return (toMaximum, max(subMaximum, toMaximum))
     else:
-        return (toMaximum, max(toMaximum, subMaximum, toMaximum + toSecondMaximum))
+        return (toMaximum, max(subMaximum, toMaximum + toSecondMaximum))
 
 trash, result = subTreeLengths(adj)
-print(max(trash, result))
+print(result)
