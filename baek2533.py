@@ -1,4 +1,5 @@
-from sys import stdin
+from sys import stdin, setrecursionlimit
+setrecursionlimit(1000000)
 N = int(stdin.readline())
 
 adjList = []
