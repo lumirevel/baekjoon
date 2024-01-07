@@ -9,18 +9,18 @@ for _ in range(N):
 for _ in range(N-1):
     u, v = map(int, stdin.readline().rstrip().split(" "))
     adjList[u - 1].append(v - 1)
+    adjList[v - 1].append(u - 1)
 
 def bwMinColoredCount(adjList, node=0):
     visited[node] = True
-    bMinColoredCount = 1
-    wMinColoredCount = 0
-    mustB = False
+    bMin = 1
+    wMin = 0
     for child in adjList[node]:
         if not visited[child]:
             b,w = bwMinColoredCount(adjList, child)
-            bMinColoredCount += min(b,w)
-            wMinColoredCount += b
-    return bMinColoredCount, wMinColoredCount
+            bMin += min(b, w)
+            wMin += b
+    return bMin, wMin
 
 bMinColoredCount, wMinColoredCount = bwMinColoredCount(adjList)
 print(min(bMinColoredCount, wMinColoredCount))
