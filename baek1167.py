@@ -40,4 +40,4 @@ def subTreeLengths(adj, node=0):
         return (toMaximum, max(subMaximum, toMaximum + toSecondMaximum))
 
 trash, result = subTreeLengths(adj)
-print(result)
+print(max(trash, result))
