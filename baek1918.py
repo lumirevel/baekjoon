@@ -1,12 +1,8 @@
 notation = "(" + input() + ")"
 
 stack = []
-i = 0
-while i < len(notation):
-    nowChar = notation[i]
-    if nowChar == "(" or nowChar == "*" or nowChar == "/" or nowChar == "+" or nowChar == "-":
-        pass
-    elif nowChar == ")":
+for nowChar in notation:
+    if nowChar == ")":
         smallStack = []
         while stack[-1] != "(":
             smallStack.append(stack.pop())
@@ -24,6 +20,5 @@ while i < len(notation):
                 number = stack.pop()
                 nowChar = number + nowChar + operand
     stack.append(nowChar)
-    i += 1
 
 print(stack.pop())
