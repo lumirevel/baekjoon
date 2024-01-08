@@ -5,7 +5,7 @@ i = 0
 while i < len(notation):
     nowChar = notation[i]
     if nowChar == "(" or nowChar == "*" or nowChar == "/" or nowChar == "+" or nowChar == "-":
-        stack.append(nowChar)
+        pass
     elif nowChar == ")":
         smallStack = []
         while stack[-1] != "(":
@@ -16,15 +16,14 @@ while i < len(notation):
             number = smallStack.pop()
             nowChar = nowChar + number + operand
         stack.pop()
-        stack.append(nowChar)
-    else:
-        if stack:
+    if stack:
+        if nowChar != "(":
             prevChar = stack[-1]
             if prevChar == "*" or prevChar == "/":
                 operand = stack.pop()
                 number = stack.pop()
                 nowChar = number + nowChar + operand
-        stack.append(nowChar)
+    stack.append(nowChar)
     i += 1
 
 print(stack.pop())
