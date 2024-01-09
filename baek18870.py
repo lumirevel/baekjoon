@@ -1,10 +1,7 @@
 from sys import stdin
 N = int(input())
 coordinates = list(map(int, stdin.readline().split(" ")))
-rosetta = []
-for number in sorted(coordinates):
-    if not rosetta or rosetta[-1] != number:
-            rosetta.append(number)
+rosetta = sorted(list(set(coordinates)))
 
 result = ""
 for coordinate in coordinates:
@@ -17,5 +14,5 @@ for coordinate in coordinates:
         elif coordinate > rosetta[mid]:
             start = mid + 1
         mid = (start + end) // 2
-    result += f"{mid} "
+    result.join(f"{mid} ")
 print(result.rstrip())
