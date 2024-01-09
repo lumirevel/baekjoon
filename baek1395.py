@@ -23,10 +23,17 @@ class ToggleTree:
         if i <= start and end <= j: # correct
             if prev is not None:
                 self.tree[node] = not prev
-            elif self.tree[node] is None:
-                self.tree[node] = True
-            else:
+            elif self.tree[node] is not None:
                 self.tree[node] = not self.tree[node]
+            else:
+                mid = (start + end) // 2
+                left = self.toggle(i, j, 2 * node, start, mid, None)
+                right = self.toggle(i, j, 2 * node + 1, mid + 1, end, None)
+
+                if left == right:
+                    self.tree[node] = left
+                    self.tree[2 * node] = None
+                    self.tree[2 * node + 1] = None
         elif end < i or j < start:
             if prev is not None:
                 self.tree[node] = prev
@@ -40,6 +47,7 @@ class ToggleTree:
             mid = (start+end) // 2
             left = self.toggle(i, j, 2*node, start, mid, now)
             right = self.toggle(i, j, 2*node+1, mid+1, end, now)
+
             if left == right:
                 self.tree[node] = left
                 self.tree[2*node] = None
@@ -57,9 +65,7 @@ class ToggleTree:
                 waitingList.append((2 * node + 1, mid + 1, end))
                 waitingList.append((2 * node, start, mid))
             elif value:
-                if i <= start and end <= j:
-                    count += end-start+1
-                elif not (end < i or j < start):
+                if i <= start and end <= j or not (end < i or j < start):
                     count += min(j, end) - max(i, start) + 1
         return count
 
