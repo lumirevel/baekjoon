@@ -3,7 +3,7 @@ N = int(input())
 coordinates = list(map(int, stdin.readline().split(" ")))
 rosetta = sorted(list(set(coordinates)))
 
-result = ""
+results = []
 for coordinate in coordinates:
     start = 0
     end = len(rosetta) - 1
@@ -14,5 +14,5 @@ for coordinate in coordinates:
         elif coordinate > rosetta[mid]:
             start = mid + 1
         mid = (start + end) // 2
-    result.join(f"{mid} ")
-print(result.rstrip())
+    results.append(f"{mid} ")
+print("".join(results).rstrip())
