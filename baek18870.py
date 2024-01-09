@@ -1,26 +1,23 @@
 from sys import stdin
 N = int(input())
-coodinates = list(map(int, stdin.readline().split(" ")))
-chart = coodinates.copy()
+coordinates = list(map(int, stdin.readline().split(" ")))
+chart = coordinates.copy()
 chart.sort()
-stone = []
+rosetta = []
 for number in chart:
-    if not stone or stone[-1] != number:
-            stone.append(number)
-
-def findIn(rosetta, x):
-    start = 0
-    end = len(rosetta)-1
-    mid = (start + end) // 2
-    while x != rosetta[mid]:
-        if x < rosetta[mid]:
-            end = mid-1
-        elif x > rosetta[mid]:
-            start = mid+1
-        mid = (start+end)//2
-    return mid
+    if not rosetta or rosetta[-1] != number:
+            rosetta.append(number)
 
 result = ""
-for coodinate in coodinates:
-    result += f"{findIn(stone, coodinate)} "
-print(result[:-1])
+for coordinate in coordinates:
+    start = 0
+    end = len(rosetta) - 1
+    mid = (start + end) // 2
+    while coordinate != rosetta[mid]:
+        if coordinate < rosetta[mid]:
+            end = mid - 1
+        elif coordinate > rosetta[mid]:
+            start = mid + 1
+        mid = (start + end) // 2
+    result += f"{mid} "
+print(result.rstrip())
