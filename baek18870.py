@@ -1,10 +1,8 @@
 from sys import stdin
 N = int(input())
 coordinates = list(map(int, stdin.readline().split(" ")))
-chart = coordinates.copy()
-chart.sort()
 rosetta = []
-for number in chart:
+for number in sorted(coordinates):
     if not rosetta or rosetta[-1] != number:
             rosetta.append(number)
 
