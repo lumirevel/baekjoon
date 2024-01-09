@@ -1,3 +1,4 @@
+from sys import stdin
 N, M = map(int,input().split(" "))
 
 class ToggleTree:
@@ -71,7 +72,7 @@ class ToggleTree:
 
 switches = ToggleTree(N)
 for _ in range(M):
-    O, S, T = map(int, input().split(" "))
+    O, S, T = map(int, stdin.readline().split(" "))
     if O == 0:
         switches.toggle(S-1,T-1)
     elif O == 1:
