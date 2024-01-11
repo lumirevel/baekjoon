@@ -1,5 +1,5 @@
 from sys import stdin, setrecursionlimit
-setrecursionlimit(10000)
+setrecursionlimit(100000)
 
 class TreeNode:
     def __init__(self, v):
