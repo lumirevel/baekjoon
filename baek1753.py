@@ -12,6 +12,9 @@ class HeapItem:
         self.priority = priority
         self.v = value
 
+    def __str__(self):
+        return f"(p:{self.priority}, v:{self.v})"
+
 class PriorityQueue:
     def __init__(self, array):
         N = len(array)
@@ -21,8 +24,11 @@ class PriorityQueue:
         for p,v in array:
             self.append(p,v)
 
+    def __len__(self):
+        return self.size
+
     def has(self, vertex):
-        if self.array[vertex] is None:
+        if vertex >= len(self.array) or self.array[vertex] is None:
             return False
         return True
 
@@ -38,17 +44,18 @@ class PriorityQueue:
         self.heapifyInMiddle(self.size)
 
     def pop(self):
-        index = 1
-        item = self.queue[index]
-        last = self.queue[self.size]
-        self.array[last.v] = self.array[item.v]
-        self.array[item.v] = None
-        self.queue[index] = last
-        self.queue.pop()
+        self.swap(1, self.size)
+        minNode = self.queue.pop()
+        self.array[minNode.v] = None
         self.size -= 1
 
-        self.heapify(index)
-        return item
+        self.heapify(1)
+        return minNode
+
+    def swap(self, i, j):
+        vertex1, vertex2 = self.queue[i].v, self.queue[j].v
+        self.array[vertex1], self.array[vertex2] = self.array[vertex2], self.array[vertex1]
+        self.queue[i], self.queue[j] = self.queue[j], self.queue[i]
 
     def updatePriority(self, vertex:int, p):
         index = self.array[vertex]
@@ -60,9 +67,7 @@ class PriorityQueue:
 
     def heapifyInMiddle(self, index):
         while index > 1 and self.queue[index].priority < self.queue[index//2].priority:
-            parentVertex, nowVertex = self.queue[index // 2].v, self.queue[index].v
-            self.array[parentVertex], self.array[nowVertex] = self.array[nowVertex], self.array[parentVertex]
-            self.queue[index], self.queue[index // 2] = self.queue[index // 2], self.queue[index]
+            self.swap(index//2, index)
             index //= 2
 
         if 2*index <= self.size and self.queue[2*index].priority < self.queue[index].priority or 2*index+1 <= self.size and self.queue[2*index+1].priority < self.queue[index].priority:
@@ -72,22 +77,16 @@ class PriorityQueue:
             return
         elif 2*index+1 > self.size:
             if self.queue[2*index].priority < self.queue[index].priority:
-                nowVertex, childVertex = self.queue[index].v, self.queue[2*index].v
-                self.array[nowVertex], self.array[childVertex] = self.array[childVertex], self.array[nowVertex]
-                self.queue[index], self.queue[2 * index] = self.queue[2 * index], self.queue[index]
+                self.swap(index, 2*index)
         else:
             P = self.queue[index].priority
             C1 = self.queue[2*index].priority
             C2 = self.queue[2*index+1].priority
-            if (P >= C1 > C2) or (C1 >= P > C2):
-                nowVertex, childVertex = self.queue[index].v, self.queue[2*index+1].v
-                self.array[nowVertex], self.array[childVertex] = self.array[childVertex], self.array[nowVertex]
-                self.queue[index], self.queue[2 * index + 1] = self.queue[2 * index + 1], self.queue[index]
+            if (P >= C1 >= C2) or (C1 >= P > C2):
+                self.swap(index, 2*index+1)
                 self.heapify(2 * index + 1)
             elif (P >= C2 > C1) or (C2 >= P > C1):
-                nowVertex, childVertex = self.queue[index].v, self.queue[2*index].v
-                self.array[nowVertex], self.array[childVertex] = self.array[childVertex], self.array[nowVertex]
-                self.queue[index], self.queue[2 * index] = self.queue[2 * index], self.queue[index]
+                self.swap(index, 2*index)
                 self.heapify(2 * index)
 
 vertices = []
@@ -101,9 +100,9 @@ for _ in range(E):
 
 def dijkstra(adjList, start):
     result = [None for _ in range(len(adjList))]
-    vertices[start] = (0, start)
+    vertices[start] = (0, start) # dist(priority), point(vertex)
     heap = PriorityQueue(vertices)
-    while heap.size:
+    while heap:
         now = heap.pop()
         nowDist = now.priority
         result[now.v] = nowDist
