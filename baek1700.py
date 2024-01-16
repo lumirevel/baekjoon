@@ -46,7 +46,6 @@ class UsageChart:
             self.root = existNode.next
         self.size -= 1
 
-    @property
     def full(self):
         return self.size == self.maxSize
 
@@ -60,21 +59,21 @@ count = 0
 powerBar = UsageChart(N, K)
 for tool in usageOrder:
     waitingList[tool - 1].popleft()
-    if powerBar.full:
-        if not powerBar.using(tool-1):
+    if not powerBar.using(tool - 1):
+        if powerBar.full():
             node = powerBar.root
-            maxTool = node.v
+            maxTool = None
             while node is not None:
                 if len(waitingList[node.v]) == 0:
                     maxTool = node.v
                     break
-                elif waitingList[node.v][0] > waitingList[maxTool][0]:
+                elif maxTool is None or waitingList[node.v][0] > waitingList[maxTool][0]:
                     maxTool = node.v
                 node = node.next
             powerBar.notUse(maxTool)
             powerBar.use(tool-1)
             count += 1
-    else:
-        powerBar.use(tool-1)
+        else:
+            powerBar.use(tool-1)
 
 print(count)
