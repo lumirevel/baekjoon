@@ -29,9 +29,13 @@ class UsageChart:
         if self.using(tool) or self.size == self.maxSize:
             raise Exception()
         newNode = Node(tool)
-        self.usageChart[tool] = newNode
         newNode.next = self.root
+        if self.root is not None:
+            self.root.prev = newNode
+
         self.root = newNode
+        self.usageChart[tool] = newNode
+
         self.size += 1
 
     def using(self, tool):
@@ -45,10 +49,12 @@ class UsageChart:
 
         existNode = self.usageChart[tool]
         if existNode.prev is not None:
-            existNode.prev = existNode.prev.prev
+            existNode.prev.next = existNode.next
         if existNode.next is not None:
-            existNode.next = existNode.next.next
+            existNode.next.prev = existNode.prev
         self.usageChart[tool] = False
+        if existNode is self.root:
+            self.root = existNode.next
         self.size -= 1
 
     @property
