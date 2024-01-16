@@ -3,13 +3,6 @@ from collections import deque
 N, K = map(int, input().split(" "))
 usageOrder = list(map(int, input().split(" ")))
 
-onlyUsageOrder = []
-prevTool = None
-for tool in usageOrder:
-    if prevTool != tool:
-        onlyUsageOrder.append(tool)
-    prevTool = tool
-
 class Node:
     def __init__(self, v):
         self.prev = None
@@ -26,8 +19,6 @@ class UsageChart:
             self.usageChart.append(False)
 
     def use(self, tool):
-        if self.using(tool) or self.size == self.maxSize:
-            raise Exception()
         newNode = Node(tool)
         newNode.next = self.root
         if self.root is not None:
@@ -44,8 +35,6 @@ class UsageChart:
         return False
 
     def notUse(self, tool):
-        if not self.using(tool):
-            raise Exception(f"Tool {tool} is not on usage chart")
 
         existNode = self.usageChart[tool]
         if existNode.prev is not None:
@@ -64,12 +53,12 @@ class UsageChart:
 waitingList = []
 for _ in range(K):
     waitingList.append(deque())
-for i, tool in enumerate(onlyUsageOrder):
+for i, tool in enumerate(usageOrder):
     waitingList[tool-1].append(i)
 
 count = 0
 powerBar = UsageChart(N, K)
-for tool in onlyUsageOrder:
+for tool in usageOrder:
     waitingList[tool - 1].popleft()
     if powerBar.full:
         if not powerBar.using(tool-1):
