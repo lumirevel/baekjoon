@@ -1,9 +1,6 @@
-from random import randint as rand
-
 T = int(input())
 ns = []
 for _ in range(T):
-    # ns.append(rand(1,1000))
     ns.append(int(input()))
 
 def splitMulList(n):
@@ -31,14 +28,17 @@ def splitSumChecker(upperResult, working, digitList, index, multiplyResults):
         if index > 0:
             index -= 1
             last = digitList[index]
-            count += splitSumChecker(upperResult + last, None, digitList, index, multiplyResults)
-            if index != 0 and working != 0:
-                if working is None:
-                    working = 0
-                count += splitSumChecker(upperResult, working * 10 + last, digitList, index, multiplyResults)
+            count += splitSumChecker(upperResult + working, last, digitList, index, multiplyResults) # 앞에 + 추가
+            if working != 0:
+                count += splitSumChecker(upperResult, working * 10 + last, digitList, index, multiplyResults) # 앞에 + 추가 안 함
         else:
-            for m in multiplyResults:
-                count += m == upperResult
+            upperResult += working
+            i = 0
+            while i < len(multiplyResults):
+                if multiplyResults[i] == upperResult:
+                    count += 1
+                    multiplyResults[i] = 0
+                i += 1
         return count
     else:
         return "Hello, BOJ 2023!"
@@ -46,4 +46,4 @@ def splitSumChecker(upperResult, working, digitList, index, multiplyResults):
 
 for n in ns:
     digitList, multiplyList = splitMulList(n)
-    print(splitSumChecker(0, None, digitList, len(digitList), multiplyList))
+    print(splitSumChecker(0, 0, digitList, len(digitList), multiplyList))
