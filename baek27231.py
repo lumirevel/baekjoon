@@ -11,14 +11,14 @@ def splitMulList(n):
         num //= 10
     multiply = []
     results = []
-    while not results or results[-1] < n and results[-1] != 1:
+    while not results or results[-1] < n and not (len(results) >= 2 and results[-1] == results[-2]):
         results.append(0)
         for i, digit in enumerate(digitStack):
             if len(multiply) < len(digitStack):
                 multiply.append(digit)
             results[-1] += multiply[i]
             multiply[i] *= digit
-    if results[-1] > n:
+    if results[-1] > n or results[-1] == results[-2]:
         results.pop()
     return digitStack, results
 
