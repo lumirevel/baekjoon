@@ -10,5 +10,4 @@ while i < len(numList):
         j += 1
     i += 1
 
-for num in numList:
-    print(num, end="")
+print(int(str().join(numList)))
