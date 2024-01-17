@@ -18,7 +18,7 @@ def splitMulList(n):
                 multiply.append(digit)
             results[-1] += multiply[i]
             multiply[i] *= digit
-    if results[-1] > n or results[-1] == results[-2]:
+    if results[-1] > n or (len(results) >= 2 and results[-1] == results[-2]):
         results.pop()
     return digitStack, results
 
