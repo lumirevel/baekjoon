@@ -28,10 +28,12 @@ def splitMulList(n):
 
         if results[-1] > n:
             results.pop()
-    return digitStack, results
+        return digitStack, results
+    else:
+        return digitStack, [0]
 
 def splitSumChecker(upperResult, working, digitList, index, multiplyResults):
-    if multiplyResults[0] != 1:
+    if multiplyResults[0] != 0:
         count = 0
         if index > 0:
             index -= 1
