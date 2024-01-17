@@ -5,21 +5,29 @@ for _ in range(T):
 
 def splitMulList(n):
     num = n
+    sum = 0
+    binary = True
     digitStack = []
-    while num != 0:
-        digitStack.append(num % 10)
-        num //= 10
     multiply = []
-    results = []
-    while not results or results[-1] < n and not (len(results) >= 2 and results[-1] == results[-2]):
-        results.append(0)
-        for i, digit in enumerate(digitStack):
-            if len(multiply) < len(digitStack):
-                multiply.append(digit)
-            results[-1] += multiply[i]
-            multiply[i] *= digit
-    if results[-1] > n or (len(results) >= 2 and results[-1] == results[-2]):
-        results.pop()
+    while num != 0:
+        digit = num % 10
+        digitStack.append(digit)
+        multiply.append(digit)
+        sum += digit
+        if digit != 0 and digit != 1:
+            binary = False
+        num //= 10
+    results = [sum]
+
+    if not binary:
+        while not results or results[-1] < n:
+            results.append(0)
+            for i, digit in enumerate(digitStack):
+                multiply[i] *= digit
+                results[-1] += multiply[i]
+
+        if results[-1] > n:
+            results.pop()
     return digitStack, results
 
 def splitSumChecker(upperResult, working, digitList, index, multiplyResults):
@@ -42,7 +50,6 @@ def splitSumChecker(upperResult, working, digitList, index, multiplyResults):
         return count
     else:
         return "Hello, BOJ 2023!"
-
 
 for n in ns:
     digitList, multiplyList = splitMulList(n)
