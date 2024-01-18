@@ -85,8 +85,8 @@ if front[-1] == side[-1]:
     i = 0
     j = 0
     while lastI != i or lastJ != j:
-        frontBar = front[i]
-        sideBar = side[j]
+        frontBar = frontChart[i]
+        sideBar = sideChart[j]
         frontCount = frontSum[i]
         sideCount = sideSum[j]
         lastI = i
@@ -105,7 +105,6 @@ if front[-1] == side[-1]:
             maxCount += frontCount * sideCount
             if i < len(frontSum) - 1:
                 i += 1
-
             if j < len(sideSum) - 1:
                 j += 1
             lastHighBar = frontBar
