@@ -13,11 +13,11 @@ def binarySearch(lst, item):
         mid = (start + end) // 2
     return mid
 
-def coordinateCompression(sortedCoordinates):
-    compressionChart = sorted(list(set(sortedCoordinates)))
+def coordinateCompression(coordinates):
+    compressionChart = sorted(list(set(coordinates)))
     compressedCoordinates = []
-    for coordinate in sortedCoordinates:
-        compressedCoordinates.append(binarySearch(sortedCoordinates, coordinate))
+    for coordinate in coordinates:
+        compressedCoordinates.append(binarySearch(compressionChart, coordinate))
     return compressionChart, compressedCoordinates
 
 def cumulateSum(compressionChart, compressedCoordinates):
@@ -25,7 +25,7 @@ def cumulateSum(compressionChart, compressedCoordinates):
     for _ in range(len(compressionChart)):
         prefixSum.append(0)
 
-    i = len(compressionChart) - 1
+    i = len(compressedCoordinates) - 1
     cumulSum = 0
     while i >= 0:
         cumulSum += 1
@@ -102,7 +102,8 @@ if front[-1] == side[-1]:
             if j < len(sideSum) - 1:
                 j += 1
         else:
-            maxCount += frontCount * sideCount
+            if frontBar != 0:
+                maxCount += frontCount * sideCount
             if i < len(frontSum) - 1:
                 i += 1
             if j < len(sideSum) - 1:
