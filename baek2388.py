@@ -103,7 +103,7 @@ if front[-1] == side[-1]:
                 j += 1
         else:
             if frontBar != 0:
-                maxCount += frontCount * sideCount
+                maxCount += (frontBar - lastHighBar) * frontCount * sideCount
             if i < len(frontSum) - 1:
                 i += 1
             if j < len(sideSum) - 1:
