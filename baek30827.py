@@ -3,7 +3,8 @@ from sys import stdin
 N, K = map(int, input().split(" "))
 activities = []
 for _ in range(N):
-    activities.append(map(int, stdin.readline().split(" ")))
+    activities.append(tuple(map(int, stdin.readline().split(" "))))
+activities.sort(key=lambda x:x[1])
 rooms = []
 for _ in range(K):
     rooms.append(0)
