@@ -1,3 +1,5 @@
+from sys import setrecursionlimit
+setrecursionlimit(20000)
 N = int(input())
 memo = []
 stepMap = []
