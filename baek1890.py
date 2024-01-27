@@ -1,5 +1,3 @@
-from sys import setrecursionlimit
-setrecursionlimit(20000)
 N = int(input())
 memo = []
 stepMap = []
@@ -12,9 +10,11 @@ def move(stepMap, i, j, N):
         return 0
     if i == N-1 and j == N-1:
         return 1
+    step = stepMap[i][j]
+    if step == 0:
+        return 0
     count = memo[i][j]
     if count is None:
-        step = stepMap[i][j]
         memo[i][j] = move(stepMap, i+step, j, N) + move(stepMap, i, j+step, N)
         return memo[i][j]
     return count
