@@ -8,7 +8,7 @@ for _ in range(N):
 def move(stepMap, i, j, N):
     if i >= N or j >= N:
         return 0
-    if i == N-1 or j == N-1:
+    if i == N-1 and j == N-1:
         return 1
     count = memo[i][j]
     if count is None:
