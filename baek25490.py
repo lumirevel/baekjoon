@@ -1,5 +1,6 @@
-from sys import stdin
+from sys import stdin, setrecursionlimit
 from queue import PriorityQueue
+setrecursionlimit(100000)
 N = int(stdin.readline())
 B = list(map(int, stdin.readline().split(" ")))
 
