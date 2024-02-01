@@ -11,4 +11,4 @@ for _ in range(1,N):
     yes %= 9901
     no %= 9901
 
-print(yes+no)
+print((yes+no)%9901)
