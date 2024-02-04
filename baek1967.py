@@ -1,3 +1,6 @@
+from sys import setrecursionlimit
+setrecursionlimit(20000)
+
 N = int(input())
 adjList = []
 for _ in range(N):
