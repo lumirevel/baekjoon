@@ -11,12 +11,12 @@ for _ in range(N-1):
     adjList[child-1].append((parent-1, length))
 
 def farthestFind(adjList, visited, now = 0, totalLength = 0):
+    visited[now] = True
     farthestChild = now
     farthestLength = totalLength
     for childInfo in adjList[now]:
         child, length = childInfo
         if not visited[child]:
-            visited[child] = True
             farChild, farLength = farthestFind(adjList, visited, child, totalLength+length)
             if farthestLength < farLength:
                 farthestLength = farLength
