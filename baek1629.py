@@ -2,7 +2,7 @@ A, B, C = map(int, input().split(" "))
 
 def power(A, B, C):
     if B == 1:
-        return A
+        return A % C
 
     halfPower = power(A, B//2, C)
     candidatedAnswer = (halfPower * halfPower) % C
