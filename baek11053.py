@@ -1,7 +1,7 @@
 N = int(input())
 numList = list(map(int, input().split(" ")))
 
-maxCount = 0
+maxCount = 1
 DP = [1] * len(numList)
 for i in range(len(numList)):
     for j in range(i+1, len(numList)):
