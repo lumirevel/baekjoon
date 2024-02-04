@@ -1,9 +1,12 @@
 N = int(input())
 numList = list(map(int, input().split(" ")))
 
+maxCount = 0
 DP = [1] * len(numList)
 for i in range(len(numList)):
     for j in range(i+1, len(numList)):
-        DP[j] = max(DP[j], DP[i]+(numList[i] < numList[j]), DP[j-1])
+        if numList[i] < numList[j]:
+            DP[j] = max(DP[j], DP[i] + 1)
+        maxCount = max(maxCount, DP[j])
 
-print(DP[-1])
+print(maxCount)
