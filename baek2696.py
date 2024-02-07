@@ -3,7 +3,9 @@ from queue import PriorityQueue
 T = int(input())
 for _ in range(T):
     M = int(input())
-    numList = list(map(int, input().split(" ")))
+    numList = []
+    for _ in range((M+9) // 10):
+        numList += list(map(int, input().split(" ")))
 
     print((M + 1) // 2)
     countBuffer = 0
