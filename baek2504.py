@@ -55,4 +55,14 @@ for now in inString:
 if wrong:
     print(0)
 else:
-    print(sum(stack))
+    result = 0
+    for num in stack:
+        if not num in ['(', '[', ']', ')']:
+            result += num
+        else:
+            wrong = True
+            break
+    if wrong:
+        print(0)
+    else:
+        print(result)
