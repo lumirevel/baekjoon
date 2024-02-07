@@ -1,4 +1,5 @@
 inString = input()
+
 wrong = False
 stack = []
 for now in inString:
@@ -13,7 +14,7 @@ for now in inString:
                 stack.append(2)
             elif stack[-1] != '[':
                 cache = 0
-                while not stack[-1] in ['(', '[']:
+                while stack and not stack[-1] in ['(', '[']:
                     cache += stack.pop()
                 if stack and stack[-1] == '(':
                     stack.pop()
@@ -35,7 +36,7 @@ for now in inString:
                 stack.append(3)
             elif stack[-1] != '(':
                 cache = 0
-                while not stack[-1] in ['(', '[']:
+                while stack and not stack[-1] in ['(', '[']:
                     cache += stack.pop()
                 if stack and stack[-1] == '[':
                     stack.pop()
