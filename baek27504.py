@@ -25,7 +25,7 @@ foundedList = []
 for i, music in enumerate(musicList):
     Ki = music[0]
     matched = 0
-    for j in range(1, len(music)-2):
+    for j in range(1, len(music)-1):
         key = music[j+1] - music[j]
         if key == melodyKey[matched]:
             matched += 1
