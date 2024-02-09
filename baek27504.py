@@ -18,8 +18,8 @@ for i in range(1, len(melodyKey)):
         matched += 1
         pi[i] = matched
     else:
-        while matched != 0 and key != melodyKey[pi[matched]]:
-            matched = pi[matched]
+        while matched != 0 and key != melodyKey[pi[matched-1]]:
+            matched = pi[matched-1]
 
 foundedList = []
 for i, music in enumerate(musicList):
@@ -33,8 +33,8 @@ for i, music in enumerate(musicList):
                 foundedList.append(i+1)
                 break
         else:
-            while matched != 0 and key != melodyKey[pi[matched]]:
-                matched = pi[matched]
+            while matched != 0 and key != melodyKey[pi[matched-1]]:
+                matched = pi[matched-1]
 
 if foundedList:
     for num in foundedList:
