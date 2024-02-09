@@ -10,36 +10,33 @@ b = list(map(int, stdin.readline().split(" ")))
 melodyKey = []
 for i in range(len(b)-1):
     melodyKey.append(b[i+1] - b[i])
-duplicatedKeyList = [None] * (len(b)-1)
-startPoint = None
-for i, key in enumerate(melodyKey):
-    if startPoint is None:
-        if key == melodyKey[0]:
-            startPoint = i
-    elif key != melodyKey[i-startPoint]:
-        duplicatedKeyList[i] = i-startPoint
+pi = [0] * len(melodyKey)
+startPoint = 0
+matched = 0
+for i in range(1, len(melodyKey)):
+    key = melodyKey[i]
+    if key == melodyKey[startPoint+matched]:
+        matched += 1
+        pi[i] = matched
+    else:
+        startPoint = 0
+        matched = 0
 
 foundedList = []
 for i, music in enumerate(musicList):
     Ki = music[0]
-    startPoint = None
+    startPoint = 0
+    matched = 0
     for j in range(1, len(music)-2):
         key = music[j+1] - music[j]
-        if startPoint is None:
-            if key == melodyKey[0]:
-                startPoint = j
-        elif key != melodyKey[j-startPoint]:
-            candidatedNow = duplicatedKeyList[j-startPoint]
-            if candidatedNow is None:
-                startPoint = None
-            else:
-                if key == melodyKey[candidatedNow]:
-                    startPoint = j - candidatedNow
-                else:
-                    startPoint = None
-        elif j - startPoint == len(melodyKey)-1:
-            foundedList.append(i+1)
-            break
+        if key == melodyKey[startPoint+matched]:
+            matched += 1
+            if matched == len(melodyKey):
+                foundedList.append(i+1)
+                break
+        else:
+            while matched != 0 and key != melodyKey[pi[matched]]:
+                matched = pi[matched]
 
 if foundedList:
     for num in foundedList:
