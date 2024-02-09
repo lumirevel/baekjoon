@@ -11,25 +11,23 @@ melodyKey = []
 for i in range(len(b)-1):
     melodyKey.append(b[i+1] - b[i])
 pi = [0] * len(melodyKey)
-startPoint = 0
 matched = 0
 for i in range(1, len(melodyKey)):
     key = melodyKey[i]
-    if key == melodyKey[startPoint+matched]:
+    if key == melodyKey[matched]:
         matched += 1
         pi[i] = matched
     else:
-        startPoint = 0
-        matched = 0
+        while matched != 0 and key != melodyKey[pi[matched]]:
+            matched = pi[matched]
 
 foundedList = []
 for i, music in enumerate(musicList):
     Ki = music[0]
-    startPoint = 0
     matched = 0
     for j in range(1, len(music)-2):
         key = music[j+1] - music[j]
-        if key == melodyKey[startPoint+matched]:
+        if key == melodyKey[matched]:
             matched += 1
             if matched == len(melodyKey):
                 foundedList.append(i+1)
