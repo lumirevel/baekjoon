@@ -29,18 +29,16 @@ for i in range(N):
     if not forwardVisited[i]:
         time = forwardDFS(i, time)
 
-visitCount = 0
 backwardVisited = [False] * N
-stack = [orderedList.get()[1]]
-while stack:
-    now = stack.pop()
+def backwardDFS(now):
     backwardVisited[now] = True
-    visitCount += 1
+    visitCount = 1
     for next in backwardAdjList[now]:
         if not backwardVisited[next]:
-            stack.append(next)
+            visitCount += backwardDFS(next)
+    return visitCount
 
-if visitCount == N:
+if backwardDFS(orderedList.get()[1]) == N:
     print("Yes")
 else:
     print("No")
