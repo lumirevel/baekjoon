@@ -1,12 +1,15 @@
 from sys import stdin
 from queue import PriorityQueue
 N, M = map(int, stdin.readline().split(" "))
-adjList = []
+forwardAdjList = []
+backwardAdjList = []
 for _ in range(N):
-    adjList.append([])
+    forwardAdjList.append([])
+    backwardAdjList.append([])
 for _ in range(M):
     v, w = map(int, stdin.readline().split(" "))
-    adjList[v-1].append(w-1)
+    forwardAdjList[v-1].append(w-1)
+    backwardAdjList[w-1].append(v-1)
 
 orderedList = PriorityQueue()
 time = 0
@@ -20,7 +23,7 @@ for i in range(N):
 
         time += 1
         orderedList.put((-time, now))
-        for next in adjList[now]:
+        for next in forwardAdjList[now]:
             if not forwardVisited[next]:
                 stack.append(next)
 
@@ -31,7 +34,7 @@ while stack:
     now = stack.pop()
     backwardVisited[now] = True
     visitCount += 1
-    for next in adjList[now]:
+    for next in backwardAdjList[now]:
         if not backwardVisited[next]:
             stack.append(next)
 
