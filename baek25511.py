@@ -1,5 +1,5 @@
 from sys import setrecursionlimit, stdin
-setrecursionlimit(100005)
+setrecursionlimit(200005)
 n, k = map(int, stdin.readline().split(" "))
 adjList = []
 for _ in range(n):
