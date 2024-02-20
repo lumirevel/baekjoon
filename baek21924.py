@@ -12,8 +12,9 @@ for _ in range(M):
     totalCost += c
 
 
-visited = [False] * N
 def prim(now = 0):
+    visited = [False] * N
+
     waiting = PriorityQueue()
     waiting.put((0, now))
     edgeCount = 0
@@ -25,7 +26,8 @@ def prim(now = 0):
             edgeCount += 1
             totalW += w
             for w, v in adjList[now]:
-                waiting.put((w, v))
+                if not visited[v]:
+                    waiting.put((w, v))
     if edgeCount == N:
         return totalW
     return -1
