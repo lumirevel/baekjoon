@@ -13,22 +13,19 @@ for _ in range(M):
 
 def dijkstra(home):
     fromHome = [float("inf")] * N
-    visited = [False] * N
+    fromHome[home] = 0
 
     waitingList = PriorityQueue()
-    for i in range(N):
-        waitingList.put((float("inf"), i))
     waitingList.put((0, home))
-    fromHome[home] = 0
     while waitingList.queue:
         distance, now = waitingList.get()
-        visited[now] = True
+        if fromHome[now] < distance:
+            continue
         for child, l in adjList[now]:
-            if not visited[child]:
-                newDistance = distance + l
-                if newDistance < fromHome[child]:
-                    fromHome[child] = newDistance
-                    waitingList.put((newDistance, child))
+            newDistance = distance + l
+            if newDistance < fromHome[child]:
+                fromHome[child] = newDistance
+                waitingList.put((newDistance, child))
 
     return fromHome
 
