@@ -9,6 +9,7 @@ for _ in range(N):
 for _ in range(M):
     D, E, L = map(int, stdin.readline().split(" "))
     adjList[D-1].append((E-1, L))
+    adjList[E-1].append((D-1, L))
 
 
 def dijkstra(home):
