@@ -22,6 +22,9 @@ def bellmanFord(start = 0):
 
 if bellmanFord():
     for shortest in shortestList[1:]:
-        print(shortest)
+        if shortest != float("inf"):
+            print(shortest)
+        else:
+            print(-1)
 else:
     print(-1)
