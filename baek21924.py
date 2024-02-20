@@ -1,12 +1,10 @@
 from sys import stdin
-from queue import PriorityQueue
 N, M = map(int, stdin.readline().split(" "))
 totalCost = 0
-edgeList = PriorityQueue()
+edgeList = []
 for _ in range(M):
     a, b, c = map(int, stdin.readline().split(" "))
-    edgeList.put((c, a-1, b-1))
-    edgeList.put((c, b-1, a-1))
+    edgeList.append((c, a-1, b-1))
     totalCost += c
 
 
@@ -40,11 +38,11 @@ class DisjointSet:
             x.p = self.findSetItem(x.p)
         return x.p
 
+edgeList.sort()
 edgeCount = 0
 saleW = 0
 check = DisjointSet(N)
-while edgeList.queue:
-    w, u, v = edgeList.get()
+for w, u, v in edgeList:
     if check.findSet(u) != check.findSet(v):
         edgeCount += 1
         saleW += w
