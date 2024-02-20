@@ -1,37 +1,29 @@
-from queue import PriorityQueue
 V, E = map(int, input().split(" "))
-adjList = []
-for _ in range(V):
-    adjList.append([])
+W = []
+for i in range(V):
+    W.append([])
+    for j in range(V):
+        W[i].append(float('inf'))
 for _ in range(E):
     a, b, c = map(int, input().split(" "))
-    adjList[a-1].append((b-1, c))
+    W[a-1][b-1] = c
 
 
-def transformedDijkstra(start):
-    shortestList = [float('inf')] * V
-    shortestList[start] = 0
-    waitingList = PriorityQueue()
-    waitingList.put((0, start))
+def transformedFloadWashall(W):
+    n = len(W)
+    D = W
+    for k in range(n):
+        newD = []
+        for i in range(n):
+            newD.append([])
+            for j in range(n):
+                newD[i].append(min(D[i][j], D[i][k]+D[k][j]))
+        D = newD
     minCycle = float('inf')
-    while waitingList.queue:
-        distance, node = waitingList.get()
-        if shortestList[node] < distance:
-            continue
-        for v, w in adjList[node]:
-            newDistance = distance + w
-            if v == start and newDistance < minCycle:
-                minCycle = newDistance
-            if newDistance < shortestList[v]:
-                shortestList[v] = newDistance
-                waitingList.put((newDistance, v))
+    for i in range(n):
+        minCycle = min(minCycle, D[i][i])
     return minCycle
-
-minCycle = float('inf')
-for i in range(V):
-    value = transformedDijkstra(i)
-    if value < minCycle:
-        minCycle = value
+minCycle = transformedFloadWashall(W)
 
 
 if minCycle != float('inf'):
