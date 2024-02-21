@@ -17,9 +17,11 @@ while True:
                     end *= 10
                     end += int(char)
             if first:
-                pageRangeList.append((start, start))
+                if start <= maxPage:
+                    pageRangeList.append((start, start))
             elif start <= end and start <= maxPage:
                 pageRangeList.append((start, min(end, maxPage)))
+
         pageRangeList.sort(key=lambda x:x[0])
         realPageList = []
         for pageRange in pageRangeList:
