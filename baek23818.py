@@ -6,7 +6,6 @@ class DisjointSet:
         def __init__(self):
             self.p = self
             self.rank = 0
-            self.counter = None
 
     @staticmethod
     def linkItem(x, y):
@@ -30,38 +29,43 @@ class DisjointSet:
 
 N, M, K = map(int, stdin.readline().split(" "))
 itemList = []
+counterList = []
 for _ in range(N):
     itemList.append(DisjointSet.Item())
+    counterList.append(DisjointSet.Item())
 relationList = []
 for _ in range(M):
     t, a, b = map(int, stdin.readline().split(" "))
-    relationList.append((t, itemList[a-1], itemList[b-1]))
+    relationList.append((t, a-1, b-1))
 queryList = []
 for _ in range(K):
     a, b = map(int, stdin.readline().split(" "))
-    queryList.append((itemList[a-1], itemList[b-1]))
+    queryList.append((a-1, b-1))
 
 
-for t, itemA, itemB in relationList:
-    setA = DisjointSet.findSetItem(itemA)
-    setB = DisjointSet.findSetItem(itemB)
-    if setA.counter is None:
-        setA.counter = DisjointSet.Item()
-    if setB.counter is None:
-        setB.counter = DisjointSet.Item()
+for t, a, b in relationList:
+    itemA = itemList[a]
+    itemB = itemList[b]
+    counterA = counterList[a]
+    counterB = counterList[b]
     if t == 0:
-        DisjointSet.unionItem(setA, setB)
+        DisjointSet.unionItem(itemA, itemB)
+        DisjointSet.unionItem(counterA, counterB)
     elif t == 1:
-        DisjointSet.unionItem(setA.counter, setB)
-        DisjointSet.unionItem(setB.counter, setA)
+        DisjointSet.unionItem(counterA, itemB)
+        DisjointSet.unionItem(itemA, counterB)
 
 
-for itemA, itemB in queryList:
-    if itemA.counter is None or itemB.counter is None:
-        print("Unknown")
-    elif DisjointSet.findSetItem(itemA) == DisjointSet.findSetItem(itemB) and DisjointSet.findSetItem(itemA.counter) == DisjointSet.findSetItem(itemB):
+for a, b in queryList:
+    itemA = itemList[a]
+    itemB = itemList[b]
+    counterA = counterList[a]
+    counterB = counterList[b]
+    if DisjointSet.findSetItem(itemA) == DisjointSet.findSetItem(itemB) and DisjointSet.findSetItem(counterA) == DisjointSet.findSetItem(itemB):
         print("Error")
     elif DisjointSet.findSetItem(itemA) == DisjointSet.findSetItem(itemB):
         print("Friend")
-    else:
+    elif DisjointSet.findSetItem(counterA) == DisjointSet.findSetItem(itemB):
         print("Enemy")
+    else:
+        print("Unknown")
